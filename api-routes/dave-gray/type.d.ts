@@ -1,6 +1,6 @@
-type USER = {
+type FOR_USER = {
   id: number
   completed: boolean
-  todo: string
+  title: string
   userId: number
 }
