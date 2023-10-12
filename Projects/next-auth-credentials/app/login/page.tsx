@@ -1,49 +1,61 @@
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import Link from "next/link"
+"use client"
+
+import Form from "./form"
+import { useToast } from "@/components/ui/use-toast"
+import { useState } from "react"
+import z from "zod"
+import { ToastAction } from "@/components/ui/toast"
+import { loginSchema } from "@/validation/schema.zod"
+import { useRouter } from "next/navigation"
+import { signIn } from "next-auth/react"
 
 export default function Login() {
-  return (
-    <main className="h-screen flex items-center justify-center">
-      <form>
-        <Card className="mx-auto min-w-[350px]">
-          <CardHeader>
-            <CardTitle className="text-2xl">Login</CardTitle>
-            <CardDescription>Enter your credentials to login.</CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-3">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              placeholder="user@example.com"
-              type="email"
-              name="email"
-              required
-            />
-            <Label htmlFor="password">Password</Label>
-            <Input type="password" name="password" required />
-          </CardContent>
-          <CardFooter className="flex flex-col gap-3">
-            <Button className="w-full" type="submit">
-              Login
-            </Button>
-            <CardDescription>
-              Don&apos;t have an account?{" "}
-              <Link href="/register" className="text-blue-500">
-                Register
-              </Link>
-            </CardDescription>
-          </CardFooter>
-        </Card>
-      </form>
-    </main>
-  )
+   const router = useRouter()
+   const { toast } = useToast()
+
+   const [data, setData] = useState({
+      email: "",
+      password: "",
+   })
+   const [disabled, setDisabled] = useState(false)
+
+   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      try {
+         setDisabled(true)
+         if (!loginSchema.parse(data)) return
+         signIn("credentials", {
+            email: data.email,
+            password: data.password,
+            redirect: false,
+         })
+         router.push("/")
+      } catch (err) {
+         setDisabled(false)
+         if (err instanceof z.ZodError) {
+            const errorMessages = err.errors.map((error) => error.message)
+            toast({
+               title: "Something went wrong",
+               description: errorMessages.join("\n"),
+               action: <ToastAction altText="Try again">Try Again</ToastAction>,
+            })
+         }
+         toast({
+            title: "Something went wrong",
+            description: "Please check your data and try again.",
+            action: <ToastAction altText="Try again">Try Again</ToastAction>,
+         })
+      }
+      setDisabled(false)
+   }
+   return (
+      <main className="h-screen flex items-center justify-center">
+         <Form
+            data={data}
+            disabled={disabled}
+            setData={setData}
+            handleLogin={handleLogin}
+         />
+      </main>
+   )
 }
