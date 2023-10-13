@@ -37,7 +37,7 @@ export default async function SearchResults({ params }: Props) {
       params.searchParams[0].toUpperCase() +
       params.searchParams.replaceAll("%20", " ").slice(1)
 
-   const content = (
+   return (
       <main className="px-3 md:px-12 py-2 md:py-10">
          {results ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
@@ -52,6 +52,4 @@ export default async function SearchResults({ params }: Props) {
          )}
       </main>
    )
-
-   return content
 }
