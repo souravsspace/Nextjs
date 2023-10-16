@@ -2,18 +2,10 @@
 
 import z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import {
-   Form,
-   FormControl,
-   FormField,
-   FormItem,
-   FormLabel,
-   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { Form } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import { createAccountSchema } from "@/validation/zod"
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 import {
    CardContent,
    CardDescription,
@@ -24,6 +16,12 @@ import {
 import { formOptions } from "./formOptions"
 import TheAlert from "@/components/TheAlert"
 import Link from "next/link"
+import { FormFieldData } from "./FormFieldData"
+import axios from "axios"
+import { useState } from "react"
+import Loading from "@/components/Loading"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Terminal } from "lucide-react"
 
 type USER = z.infer<typeof createAccountSchema>
 
@@ -37,8 +35,21 @@ export default function RegisterForm() {
       resolver: zodResolver(createAccountSchema),
    })
 
-   const onSubmit = handleSubmit((data) => {
-      console.log(data)
+   const [loading, setLoading] = useState(false)
+   const [error, setError] = useState("")
+   const [success, setSuccess] = useState(false)
+
+   const onSubmit = handleSubmit(async (data) => {
+      try {
+         setLoading(true)
+         await axios.post("/api/register", data)
+         setSuccess(true)
+      } catch (error) {
+         setLoading(false)
+         setError("Something went wrong, please try again later!")
+      }
+      setLoading(false)
+      setError("")
    })
 
    return (
@@ -49,48 +60,52 @@ export default function RegisterForm() {
                Enter your information to create an account.
             </CardDescription>
          </CardHeader>
-         {(errors.name ||
-            errors.email ||
-            errors.password ||
-            errors.confirmPassword) && (
-            <TheAlert
-               message={
-                  errors.name?.message ||
-                  errors.email?.message ||
-                  errors.password?.message ||
-                  errors.confirmPassword?.message
-               }
-            />
-         )}
+         <div>
+            {(errors.name ||
+               errors.email ||
+               errors.password ||
+               errors.confirmPassword ||
+               error !== "") && (
+               <TheAlert
+                  message={
+                     errors.name?.message ||
+                     errors.email?.message ||
+                     errors.password?.message ||
+                     errors.confirmPassword?.message ||
+                     error
+                  }
+               />
+            )}
+            {success && (
+               <Alert className="mb-3 bg-green-50">
+                  <Terminal className="h-4 w-4 !text-green-600" />
+                  <AlertDescription className="text-green-600">
+                     Account created successfully!
+                  </AlertDescription>
+               </Alert>
+            )}
+         </div>
          <form onSubmit={onSubmit} className="space-y-8">
             <CardContent>
                {formOptions.map(({ name, type, label, placeholder }, index) => (
-                  <FormField
+                  <FormFieldData
                      key={index}
                      control={control}
-                     name={name as any}
-                     render={({ field }) => (
-                        <FormItem>
-                           <FormLabel>{label}</FormLabel>
-                           <FormControl>
-                              <Input
-                                 type={type}
-                                 className="!ring-0"
-                                 placeholder={placeholder}
-                                 {...field}
-                              />
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
+                     name={name}
+                     type={type}
+                     label={label}
+                     placeholder={placeholder}
+                  ></FormFieldData>
                ))}
             </CardContent>
             <CardFooter className="flex justify-end gap-1">
-               <Button type="button" variant="secondary">
+               <Button disabled={loading} type="button" variant="secondary">
                   <Link href="/">Back</Link>
                </Button>
-               <Button type="submit">Register</Button>
+               <Button disabled={loading} type="submit">
+                  Register
+                  {loading && <Loading />}
+               </Button>
             </CardFooter>
          </form>
       </Form>
