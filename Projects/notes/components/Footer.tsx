@@ -1,0 +1,25 @@
+import { Icons } from "./ui/icons"
+import { Separator } from "./ui/separator"
+
+export default function Footer() {
+   return (
+      <footer className="absolute bottom-0 left-0 right-0">
+         <Separator className="my-5" />
+         <main className="mb-5 container flex justify-between items-center">
+            <h1>
+               All copyrights reserved to{" "}
+               <span className="cursor-pointer underline text-zinc-500 hover:text-zinc-800 transition-all">
+                  @souravspace
+               </span>
+            </h1>
+            <section className="flex items-center justify-center gap-x-4">
+               <span className="cursor-pointer underline text-zinc-500 hover:text-zinc-800 mr-5 transition-all">
+                  @souravukil
+               </span>
+               <Icons.gitHub className="h-5 w-5 text-zinc-500 hover:text-zinc-800 cursor-pointer" />
+               <Icons.google className="h-5 w-5 text-zinc-500 hover:text-zinc-800 cursor-pointer" />
+            </section>
+         </main>
+      </footer>
+   )
+}
