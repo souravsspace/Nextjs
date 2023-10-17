@@ -15,5 +15,6 @@ export default function AllNotesOfUser() {
          </div>
       )
    }
+   const userEmail = session.data?.user?.email
    return <div>AllNotesOfUser</div>
 }

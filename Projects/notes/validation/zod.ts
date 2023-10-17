@@ -21,6 +21,6 @@ export const loginSchema = z.object({
 })
 
 export const createNotesSchema = z.object({
-   title: z.string().min(3, "Title is required").max(70, "Title is too long"),
-   description: z.string().min(10, "Description is required"),
+   title: z.string().min(3, "Title is required!").max(70, "Title is too long!"),
+   description: z.string().min(10, "Description is required!"),
 })

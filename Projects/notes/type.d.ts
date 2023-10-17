@@ -5,7 +5,7 @@ type USER_TYPE = {
    password: string
    createdAt: Date
    updatedAt: Date
-   notes: NOTE_TYPE[]
+   notes?: NOTE_TYPE[]
 }
 
 type NOTE_TYPE = {
