@@ -29,6 +29,8 @@ import TheAlert from "@/components/TheAlert"
 import { createUserOptions } from "./createUserOptions"
 import Loading from "@/components/Loading"
 import axios from "axios"
+import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 
 export default function CreatingNote() {
    const [error, setError] = useState("")
@@ -46,20 +48,36 @@ export default function CreatingNote() {
    })
 
    const onSubmit = handleSubmit(async (data) => {
+      const user_data = {
+         email: session.data?.user?.email,
+         title: data.title,
+         description: data.description,
+      }
       try {
          setLoading(true)
-         await axios.post("api/create_note", data)
+         await axios.post("api/create_note", user_data)
          setSuccess(true)
       } catch (error) {
          setLoading(false)
          setError("Something went wrong, please try again later!")
       }
       setLoading(false)
-      // reset({
-      //    title: "",
-      //    description: "",
-      // })
+      reset({
+         title: "",
+         description: "",
+      })
    })
+
+   const router = useRouter()
+   const session = useSession()
+   if (session.status === "unauthenticated") {
+      router.push("/")
+      return (
+         <div className="flex justify-center items-center min-h-[20]">
+            <Loading />
+         </div>
+      )
+   }
 
    return (
       <Form {...form}>
