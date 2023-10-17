@@ -16,6 +16,16 @@ export async function POST(request: Request) {
       return NextResponse.json("Please fill all the fields", { status: 400 })
    }
 
+   const exixtingUser = await prisma.user.findUnique({
+      where: {
+         email: email,
+      },
+   })
+
+   if (exixtingUser?.email === email) {
+      return NextResponse.json("User already exists", { status: 400 })
+   }
+
    const hasedPassword = await bcrypt.hash(password, 10)
 
    try {

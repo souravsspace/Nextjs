@@ -8,19 +8,19 @@ import {
 import { Input } from "@/components/ui/input"
 
 type Props = {
-   name: string
-   type: string
-   label: string
-   placeholder: string
    control: any
+   name: string
+   label: string
+   type: string
+   placeholder: string
 }
 
 export function FormFieldData({
-   name,
-   type,
-   label,
-   placeholder,
    control,
+   name,
+   label,
+   type,
+   placeholder,
 }: Props) {
    return (
       <FormField

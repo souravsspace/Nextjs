@@ -1,7 +1,7 @@
 import { AiFillBug } from "react-icons/ai"
 import { Separator } from "./ui/separator"
 import Link from "next/link"
-import { Button } from "./ui/button"
+import NavbarButton from "./NavbarButton"
 
 export default function NavBar() {
    const NavLinks = [
@@ -36,12 +36,7 @@ export default function NavBar() {
                ))}
             </section>
             <section className="flex gap-x-1 items-center">
-               <Button variant="secondary">
-                  <Link href="/register">Register</Link>
-               </Button>
-               <Button>
-                  <Link href="/login">Login</Link>
-               </Button>
+               <NavbarButton />
             </section>
          </div>
          <Separator className="my-5" />

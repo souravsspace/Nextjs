@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Form } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import { createAccountSchema } from "@/validation/zod"
-import { set, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import {
    CardContent,
    CardDescription,
@@ -22,6 +22,8 @@ import { useState } from "react"
 import Loading from "@/components/Loading"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Terminal } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 
 type USER = z.infer<typeof createAccountSchema>
 
@@ -39,6 +41,8 @@ export default function RegisterForm() {
    const [error, setError] = useState("")
    const [success, setSuccess] = useState(false)
 
+   const router = useRouter()
+
    const onSubmit = handleSubmit(async (data) => {
       try {
          setLoading(true)
@@ -50,7 +54,15 @@ export default function RegisterForm() {
       }
       setLoading(false)
       setError("")
+      setTimeout(() => {
+         router.push("/login")
+      }, 1500)
    })
+
+   const session = useSession()
+   if (session.status === "authenticated") {
+      return router.push("/")
+   }
 
    return (
       <Form {...form}>
@@ -104,7 +116,11 @@ export default function RegisterForm() {
                </Button>
                <Button disabled={loading} type="submit">
                   Register
-                  {loading && <Loading />}
+                  {loading && (
+                     <div className="scale-[0.7]">
+                        <Loading />
+                     </div>
+                  )}
                </Button>
             </CardFooter>
          </form>
