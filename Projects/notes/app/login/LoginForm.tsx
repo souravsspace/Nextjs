@@ -69,7 +69,12 @@ export default function LoginForm() {
 
    const session = useSession()
    if (session.status === "authenticated") {
-      return router.push("/")
+      router.push("/")
+      return (
+         <div className="flex justify-center items-center min-h-[20]">
+            <Loading />
+         </div>
+      )
    }
 
    return (

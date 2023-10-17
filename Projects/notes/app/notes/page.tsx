@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import AllNotesOfUser from "./AllNotesOfUser"
 
 export function generateMetadata() {
    return {
@@ -27,7 +28,9 @@ export default function Notes() {
                   See all of your notes, that you have created!
                </CardDescription>
             </CardHeader>
-            <CardContent>sddsd</CardContent>
+            <CardContent>
+               <AllNotesOfUser />
+            </CardContent>
          </Card>
          <Card className="min-w-[350px]">
             <CardHeader>

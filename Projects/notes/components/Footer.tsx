@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { Icons } from "./ui/icons"
 import { Separator } from "./ui/separator"
 
@@ -16,7 +17,9 @@ export default function Footer() {
                <span className="cursor-pointer underline text-zinc-500 hover:text-zinc-800 mr-5 transition-all">
                   @souravukil
                </span>
-               <Icons.gitHub className="h-5 w-5 text-zinc-500 hover:text-zinc-800 cursor-pointer" />
+               <Link href="https://github.com/souravsspace" target="_blank">
+                  <Icons.gitHub className="h-5 w-5 text-zinc-500 hover:text-zinc-800 cursor-pointer" />
+               </Link>
                <Icons.google className="h-5 w-5 text-zinc-500 hover:text-zinc-800 cursor-pointer" />
             </section>
          </main>
