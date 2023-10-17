@@ -27,8 +27,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Terminal } from "lucide-react"
 import TheAlert from "@/components/TheAlert"
 import { createUserOptions } from "./createUserOptions"
-import axios from "axios"
 import Loading from "@/components/Loading"
+import axios from "axios"
 
 export default function CreatingNote() {
    const [error, setError] = useState("")
@@ -55,10 +55,10 @@ export default function CreatingNote() {
          setError("Something went wrong, please try again later!")
       }
       setLoading(false)
-      reset({
-         title: "",
-         description: "",
-      })
+      // reset({
+      //    title: "",
+      //    description: "",
+      // })
    })
 
    return (
