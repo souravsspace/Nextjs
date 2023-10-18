@@ -6,6 +6,10 @@ import { useSession } from "next-auth/react"
 
 export default function Home() {
    const session = useSession()
+
+   // const { data: user } = session
+   // console.log(user?.user?.id)
+
    if (session.status === "loading") {
       return (
          <div className="flex justify-center items-center min-h-[20]">

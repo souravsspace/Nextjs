@@ -7,9 +7,6 @@ import { loginSchema } from "@/validation/zod"
 
 export const options: NextAuthOptions = {
    adapter: PrismaAdapter(prisma),
-   session: {
-      strategy: "jwt",
-   },
    providers: [
       CredentialsProvider({
          name: "credentials",
@@ -48,6 +45,34 @@ export const options: NextAuthOptions = {
          },
       }),
    ],
+   callbacks: {
+      async jwt({ token, user }) {
+         // passing user object to jwt will make it available in session
+         if (user) {
+            return {
+               ...token,
+               id: user.id,
+               name: user.name,
+               email: user.email,
+            }
+         }
+         return token
+      },
+      async session({ session, token }) {
+         // passing user object to session will make it available in useSession hook
+         return {
+            ...session,
+            user: {
+               id: token.id,
+               name: token.name,
+               email: token.email,
+            },
+         }
+      },
+   },
+   session: {
+      strategy: "jwt",
+   },
    pages: {
       signIn: "/login",
    },

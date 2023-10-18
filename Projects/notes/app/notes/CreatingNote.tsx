@@ -33,6 +33,8 @@ import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 
 export default function CreatingNote() {
+   const router = useRouter()
+
    const [error, setError] = useState("")
    const [loading, setLoading] = useState(false)
    const [success, setSuccess] = useState(false)
@@ -68,7 +70,6 @@ export default function CreatingNote() {
       })
    })
 
-   const router = useRouter()
    const session = useSession()
    if (session.status === "unauthenticated") {
       router.push("/")

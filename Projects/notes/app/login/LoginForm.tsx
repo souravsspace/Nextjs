@@ -27,7 +27,6 @@ import { Terminal } from "lucide-react"
 type USER = z.infer<typeof loginSchema>
 
 export default function LoginForm() {
-   const router = useRouter()
    const form = useForm()
    const {
       handleSubmit,
@@ -67,6 +66,7 @@ export default function LoginForm() {
       setLoading(false)
    })
 
+   const router = useRouter()
    const session = useSession()
    if (session.status === "authenticated") {
       router.push("/")
