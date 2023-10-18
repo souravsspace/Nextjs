@@ -4,10 +4,10 @@ import { Separator } from "./ui/separator"
 
 export default function Footer() {
    return (
-      <footer className="absolute bottom-0 left-0 right-0">
+      <footer>
          <Separator className="my-5" />
-         <main className="mb-5 container flex justify-between items-center">
-            <h1>
+         <main className="mb-5 container flex justify-between items-center flex-col md:flex-row gap-2">
+            <h1 className="text-center">
                All copyrights reserved to{" "}
                <span className="cursor-pointer underline text-zinc-500 hover:text-zinc-800 transition-all">
                   @souravspace

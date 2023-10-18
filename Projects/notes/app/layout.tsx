@@ -22,7 +22,9 @@ export default function RootLayout({
          <body className={inter.className}>
             <Provider>
                <NavBar />
-               <main className="container mx-auto">{children}</main>
+               <main className="mx-auto px-3 md:px-8 py-2 md:py-6">
+                  {children}
+               </main>
                <Footer />
             </Provider>
          </body>

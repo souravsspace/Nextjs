@@ -16,8 +16,8 @@ export function generateMetadata() {
 
 export default function Notes() {
    return (
-      <main className="container flex gap-5 w-full md:flex-row flex-col">
-         <Card className="w-full min-w-[350px]">
+      <main className="flex gap-5 w-full md:flex-row flex-col mt-[3rem] mb-[4rem]">
+         <Card className="min-w-[350px] w-full">
             <CardHeader>
                <CardTitle>All The Notes</CardTitle>
                <CardDescription>
@@ -28,7 +28,9 @@ export default function Notes() {
                <AllNotesOfUser />
             </CardContent>
          </Card>
-         <CreatingNote />
+         <div>
+            <CreatingNote />
+         </div>
       </main>
    )
 }

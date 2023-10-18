@@ -52,7 +52,6 @@ export default function CreatingNote() {
    const onSubmit = handleSubmit(async (data) => {
       const user_data = {
          id: session.data?.user?.id,
-         // email: session.data?.user?.email,
          title: data.title,
          description: data.description,
       }

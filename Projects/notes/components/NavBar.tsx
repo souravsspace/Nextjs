@@ -16,7 +16,7 @@ export default function NavBar() {
    ]
 
    return (
-      <nav className="pt-5">
+      <nav className="pt-5 sticky top-0 backdrop-blur-md z-50">
          <div className="container flex justify-between items-center">
             <section className="flex gap-x-6 items-center">
                <Link

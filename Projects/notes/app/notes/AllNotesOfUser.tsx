@@ -1,6 +1,12 @@
 "use client"
 
 import Loading from "@/components/Loading"
+import {
+   Card,
+   CardContent,
+   CardDescription,
+   CardHeader,
+} from "@/components/ui/card"
 import axios from "axios"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
@@ -35,15 +41,16 @@ export default function AllNotesOfUser() {
    }
 
    return (
-      <main className="grid grid-cols-3 gap-4">
+      <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
          {userNote.map((note) => (
-            <div
-               key={note.id}
-               className="border border-gray-300 rounded-md p-4"
-            >
-               <h2 className="text-lg font-bold">{note.title}</h2>
-               <p className="text-sm">{note.description}</p>
-            </div>
+            <Card key={note.id}>
+               <CardHeader>
+                  <h2 className="text-xl font-semibold">{note.title}</h2>
+               </CardHeader>
+               <CardContent>
+                  <CardDescription>{note.description}</CardDescription>
+               </CardContent>
+            </Card>
          ))}
       </main>
    )

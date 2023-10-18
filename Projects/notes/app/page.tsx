@@ -22,10 +22,10 @@ export default function Home() {
       )
    }
    return (
-      <main className="flex flex-col justify-center items-center max-h-[40vh]">
+      <main className="flex flex-col justify-center items-center max-h-[40vh] mt-24 mb-[8.5rem]">
          <Card>
             <CardHeader>
-               <CardTitle>
+               <CardTitle className="text-center">
                   Welcome back,{" "}
                   <span className="capitalize">{session.data?.user?.name}</span>
                   !
