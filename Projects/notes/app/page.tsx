@@ -16,7 +16,7 @@ export default function Home() {
    }
    if (session.status === "unauthenticated") {
       return (
-         <div className="flex justify-center items-center min-h-[20]">
+         <div className="flex justify-center items-center min-h-[68vh]">
             <h1 className="text-center text-xl">Not Authenticated</h1>
          </div>
       )
