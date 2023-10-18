@@ -4,10 +4,11 @@ import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
    const body = await request.json()
-   const { email }: { email: string } = body
+   // const { email }: { email: string } = body
+   const { id }: { id: string } = body
 
    const user = await prisma.user.findUnique({
-      where: { email: email },
+      where: { id: id },
    })
    if (!user) return NextResponse.json("User not found", { status: 400 })
 
@@ -16,7 +17,6 @@ export async function POST(request: Request) {
       return NextResponse.json(validation.error.errors, { status: 400 })
    }
 
-   const userId = user.id
    const { title, description } = validation.data
 
    try {
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
             description: description,
             user: {
                connect: {
-                  id: userId,
+                  id: id,
                },
             },
          },
