@@ -1,7 +1,8 @@
 import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
-import { randomUUID } from "crypto"
+import { remark } from "remark"
+import html from "remark-html"
 
 // get all the posts in the blog-posts directory
 const postsDirectory = path.join(process.cwd(), "blog-posts")
@@ -11,7 +12,7 @@ export function getSortedPostsData() {
    const fileNames = fs.readdirSync(postsDirectory)
 
    const allPostsData = fileNames.map((fileName) => {
-      const randomId = randomUUID()
+      const userId = fileName.replace(/\.md$/, "")
 
       // read markdown file as string && read the file content
       const fullPath = path.join(postsDirectory, fileName)
@@ -21,7 +22,7 @@ export function getSortedPostsData() {
       const matterResult = matter(fileContent)
 
       const blogPost: BLOG_POST = {
-         id: randomId,
+         id: userId,
          title: matterResult.data.title,
          date: matterResult.data.date,
       }
@@ -30,4 +31,26 @@ export function getSortedPostsData() {
    })
 
    return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1))
+}
+
+export async function getSinglePost(id: string) {
+   const fullPath = path.join(postsDirectory, `${id}.md`)
+   const fileContent = fs.readFileSync(fullPath, "utf-8")
+
+   const matterResult = matter(fileContent)
+
+   const processedContent = await remark()
+      .use(html)
+      .process(matterResult.content)
+
+   const contentHtml = processedContent.toString()
+
+   const blogPost: BLOG_POST & { contentHtml: string } = {
+      id,
+      title: matterResult.data.title,
+      date: matterResult.data.date,
+      contentHtml,
+   }
+
+   return blogPost
 }

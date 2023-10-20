@@ -23,7 +23,7 @@ export default function Navigation() {
       },
    ]
    return (
-      <nav className="sticky top-0 z-50">
+      <nav className="sticky top-0 z-50 backdrop-blur-md">
          <section className="prose prose-2xl flex justify-between items-center mx-auto py-5">
             <Link
                href="/"
